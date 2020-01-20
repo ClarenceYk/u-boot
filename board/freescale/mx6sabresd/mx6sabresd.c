@@ -52,7 +52,7 @@ DECLARE_GLOBAL_DATA_PTR;
 	PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm | PAD_CTL_HYS |	\
 	PAD_CTL_ODE | PAD_CTL_SRE_FAST)
 
-#define I2C_PMIC	1
+#define I2C_PMIC	2
 
 #define I2C_PAD MUX_PAD_CTRL(I2C_PAD_CTRL)
 
@@ -67,8 +67,8 @@ int dram_init(void)
 }
 
 static iomux_v3_cfg_t const uart1_pads[] = {
-	IOMUX_PADS(PAD_CSI0_DAT10__UART1_TX_DATA | MUX_PAD_CTRL(UART_PAD_CTRL)),
-	IOMUX_PADS(PAD_CSI0_DAT11__UART1_RX_DATA | MUX_PAD_CTRL(UART_PAD_CTRL)),
+	IOMUX_PADS(PAD_SD3_DAT7__UART1_TX_DATA | MUX_PAD_CTRL(UART_PAD_CTRL)),
+	IOMUX_PADS(PAD_SD3_DAT6__UART1_RX_DATA | MUX_PAD_CTRL(UART_PAD_CTRL)),
 };
 
 static iomux_v3_cfg_t const enet_pads[] = {
@@ -200,14 +200,14 @@ static void enable_lvds(struct display_info_t const *dev)
 
 static struct i2c_pads_info mx6q_i2c_pad_info1 = {
 	.scl = {
-		.i2c_mode = MX6Q_PAD_KEY_COL3__I2C2_SCL | I2C_PAD,
-		.gpio_mode = MX6Q_PAD_KEY_COL3__GPIO4_IO12 | I2C_PAD,
-		.gp = IMX_GPIO_NR(4, 12)
+		.i2c_mode = MX6Q_PAD_GPIO_5__I2C3_SCL | I2C_PAD,
+		.gpio_mode = MX6Q_PAD_GPIO_5__GPIO1_IO05 | I2C_PAD,
+		.gp = IMX_GPIO_NR(1, 5)
 	},
 	.sda = {
-		.i2c_mode = MX6Q_PAD_KEY_ROW3__I2C2_SDA | I2C_PAD,
-		.gpio_mode = MX6Q_PAD_KEY_ROW3__GPIO4_IO13 | I2C_PAD,
-		.gp = IMX_GPIO_NR(4, 13)
+		.i2c_mode = MX6Q_PAD_GPIO_6__I2C3_SDA | I2C_PAD,
+		.gpio_mode = MX6Q_PAD_GPIO_6__GPIO1_IO06 | I2C_PAD,
+		.gp = IMX_GPIO_NR(1, 6)
 	}
 };
 
@@ -538,7 +538,7 @@ int board_init(void)
 	setup_spi();
 #endif
 	if (is_mx6dq() || is_mx6dqp())
-		setup_i2c(1, CONFIG_SYS_I2C_SPEED, 0x7f, &mx6q_i2c_pad_info1);
+		setup_i2c(I2C_PMIC, CONFIG_SYS_I2C_SPEED, 0x7f, &mx6q_i2c_pad_info1);
 	else
 		setup_i2c(1, CONFIG_SYS_I2C_SPEED, 0x7f, &mx6dl_i2c_pad_info1);
 #if defined(CONFIG_VIDEO_IPUV3)

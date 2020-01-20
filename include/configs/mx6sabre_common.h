@@ -152,6 +152,16 @@
 			"done;" \
 		"fi;\0" \
 	"uname_boot="\
+        "mii modify 0x18 0x01 0xffff 0x0033; " \
+        "mii modify 0x19 0x01 0xffff 0x0033; " \
+        "mii modify 0x1a 0x01 0xffff 0x0010; " \
+        "mii modify 0x1a 0x01 0xfffe 0x00cf; " \
+        "mii write 0x1a 0x00 0x1009; " \
+        "mii modify 0x1a 0x01 0xffff 0x0030; " \
+        "echo 0x1a-0x00: ;" \
+        "mii read 0x1a 0x00; " \
+        "echo 0x1a-0x01: ;" \
+        "mii read 0x1a 0x01; " \
 		"setenv bootdir /boot; " \
 		"setenv bootfile vmlinuz-${uname_r}; " \
 		"if test -e ${interface} ${bootpart} ${bootdir}/${bootfile}; then " \
